@@ -13,4 +13,25 @@ with significantly fewer stored values
 
 1 "Data Loading & Preprocessing": Loads the standard '512 x 512' grayscale *Cameraman* dataset from 'sckit-image' and converts pixel intensties to floating-point values
 2 "Variance Analysis": fits a full 512 components PCa model to evaluate individual and cumulative explained variance ratios
+3. **Dimensionality Reduction & Reconstruction:** Compresses the image using varying numbers of components (`k = 5, 10, 20, 50, 100, 200`) via `fit_transform` and reconstructs the approximations using `inverse_transform`.
+4. **Performance Evaluation:** Measures visual quality alongside quantitative metrics including **Mean Squared Error (MSE)**, **Root Mean Squared Error (RMSE)**, and **Compression Ratio**.
+
+## Key Results
+
+| Components ($k$) | Variance Retained | Mean Squared Error (MSE) | Compression Ratio | Visual Quality |
+| :--- | :--- | :--- | :--- | :--- |
+| **10** | ~90.00% | — | ~25.35 : 1 | Recognizable silhouette, heavy blur |
+| **50** | — | 88.07 (RMSE: 9.38) | 5.07 : 1 | Clear structure, minor detail loss |
+| **100** | 99.16% | 34.05 | 2.55 : 1 | Nearly indistinguishable from original |
+
+*Note: Original image requires `262,144` stored values (`512 × 512`), whereas a 50-component representation requires only `51,712` values (reduced matrix + principal axes + feature means).*
+
+## Tech Stack
+
+* **Python 3**
+* **NumPy** — Matrix operations, cumulative variance, and error calculations
+* **Scikit-Learn** — `PCA` model fitting, transformation, and reconstruction
+* **Scikit-Image** — Sample `camera` grayscale dataset
+* **Matplotlib** — Variance plots, error curves, and side-by-side image reconstructions
+
 
