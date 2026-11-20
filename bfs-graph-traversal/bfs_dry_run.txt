@@ -1,0 +1,92 @@
+BFS MANUAL DRY RUN - FIRST THREE ITERATIONS
+=============================================
+
+Graph (adjacency list):
+  1: 2, 3
+  2: 1, 4, 5
+  3: 1, 6
+  4: 2
+  5: 2
+  6: 3
+
+Source vertex s = 1
+Notation: d = discovery distance, pi = predecessor, Q = FIFO queue (front on the left)
+Neighbours are examined in the order listed in the adjacency list.
+
+
+INITIALISATION
+--------------
+All vertices: color = white, d = infinity, pi = NIL
+Discover the source: color[1] = gray, d[1] = 0, pi[1] = NIL
+Enqueue 1.
+
+  Q = [1]
+
+  Vertex | 1    2    3    4    5    6
+  color  | gray white white white white white
+  d      | 0    inf  inf  inf  inf  inf
+  pi     | NIL  NIL  NIL  NIL  NIL  NIL
+
+
+ITERATION 1
+-----------
+Q before: [1]
+Dequeue u = 1            -> Q = []
+Adj[1] = 2, 3
+  v = 2: white -> gray, d[2] = d[1] + 1 = 1, pi[2] = 1, enqueue 2
+  v = 3: white -> gray, d[3] = d[1] + 1 = 1, pi[3] = 1, enqueue 3
+All neighbours of 1 examined -> color[1] = black
+
+Q after: [2, 3]
+
+  Vertex | 1     2     3     4     5     6
+  color  | black gray  gray  white white white
+  d      | 0     1     1     inf   inf   inf
+  pi     | NIL   1     1     NIL   NIL   NIL
+
+
+ITERATION 2
+-----------
+Q before: [2, 3]
+Dequeue u = 2            -> Q = [3]
+Adj[2] = 1, 4, 5
+  v = 1: black (already processed) -> skip
+  v = 4: white -> gray, d[4] = d[2] + 1 = 2, pi[4] = 2, enqueue 4
+  v = 5: white -> gray, d[5] = d[2] + 1 = 2, pi[5] = 2, enqueue 5
+All neighbours of 2 examined -> color[2] = black
+
+Q after: [3, 4, 5]
+
+  Vertex | 1     2     3     4     5     6
+  color  | black black gray  gray  gray  white
+  d      | 0     1     1     2     2     inf
+  pi     | NIL   1     1     2     2     NIL
+
+
+ITERATION 3
+-----------
+Q before: [3, 4, 5]
+Dequeue u = 3            -> Q = [4, 5]
+Adj[3] = 1, 6
+  v = 1: black (already processed) -> skip
+  v = 6: white -> gray, d[6] = d[3] + 1 = 2, pi[6] = 3, enqueue 6
+All neighbours of 3 examined -> color[3] = black
+
+Q after: [4, 5, 6]
+
+  Vertex | 1     2     3     4     5     6
+  color  | black black black gray  gray  gray
+  d      | 0     1     1     2     2     2
+  pi     | NIL   1     1     2     2     3
+
+
+SUMMARY OF QUEUE STATES
+-----------------------
+  Start        : Q = [1]
+  After iter 1 : Q = [2, 3]
+  After iter 2 : Q = [3, 4, 5]
+  After iter 3 : Q = [4, 5, 6]
+
+Vertices leave the queue in the same order they entered (FIFO), so
+1 is processed first, then 2 and 3 (distance 1), and 4, 5, 6 (distance 2)
+follow: all vertices of one layer are processed before the next layer.

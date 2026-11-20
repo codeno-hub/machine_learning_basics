@@ -1,0 +1,39 @@
+Graph (adjacency list):
+  1: 2, 3
+  2: 1, 4, 5
+  3: 1, 6
+  4: 2
+  5: 2
+  6: 3
+
+Iteration 1: dequeue 1
+    discover 2: d=1, pi=1, color=gray
+    discover 3: d=1, pi=1, color=gray
+    color[1] = black, queue = [2, 3]
+Iteration 2: dequeue 2
+    discover 4: d=2, pi=2, color=gray
+    discover 5: d=2, pi=2, color=gray
+    color[2] = black, queue = [3, 4, 5]
+Iteration 3: dequeue 3
+    discover 6: d=2, pi=3, color=gray
+    color[3] = black, queue = [4, 5, 6]
+Iteration 4: dequeue 4
+    color[4] = black, queue = [5, 6]
+Iteration 5: dequeue 5
+    color[5] = black, queue = [6]
+Iteration 6: dequeue 6
+    color[6] = black, queue = []
+
+====================================================
+BFS RESULTS (source vertex = 1)
+====================================================
+Traversal order : 1 -> 2 -> 3 -> 4 -> 5 -> 6
+
+Vertex  Color   Distance  Predecessor
+--------------------------------------------
+1       black   0         NIL
+2       black   1         1
+3       black   1         1
+4       black   2         2
+5       black   2         2
+6       black   2         3
