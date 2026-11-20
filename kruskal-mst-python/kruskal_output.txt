@@ -1,0 +1,34 @@
+========================================================
+KRUSKAL'S MINIMUM SPANNING TREE
+========================================================
+
+Edges sorted by ascending weight:
+  D - E   weight 1
+  A - D   weight 2
+  C - F   weight 2
+  A - B   weight 3
+  B - E   weight 4
+  B - C   weight 5
+  E - F   weight 6
+
+Chronological processing:
+  1. ACCEPT  D - E  (w = 1)
+  2. ACCEPT  A - D  (w = 2)
+  3. ACCEPT  C - F  (w = 2)
+  4. ACCEPT  A - B  (w = 3)
+  5. REJECT  B - E  (w = 4)  (forms a cycle)
+  6. ACCEPT  B - C  (w = 5)
+  7. REJECT  E - F  (w = 6)  (forms a cycle)
+
+Accepted edges (MST):
+  D - E  weight 1
+  A - D  weight 2
+  C - F  weight 2
+  A - B  weight 3
+  B - C  weight 5
+
+Rejected edges (cycle-forming):
+  B - E  weight 4
+  E - F  weight 6
+
+MST total weight = 1 + 2 + 2 + 3 + 5 = 13
