@@ -1,0 +1,56 @@
+LDA OBJECTIVE FUNCTION REPORT
+=============================
+Objective:  J(w) = (w^T SB w) / (w^T SW w)
+            = between-class scatter / within-class scatter, along direction w
+
+Data: C1 (Fail, label 0) = students 1-2;  C2 (Pass, label 1) = students 3-5
+Features: F1 = Study Hours, F2 = Prior Score (raw, unstandardized)
+
+1) Mean vectors
+    m1 (C1) = [15.0000, 55.0000]
+    m2 (C2) = [31.6667, 83.3333]
+    m2 - m1 = [16.6667, 28.3333]
+
+2) Within-class scatter  (sum of (x - m)(x - m)^T over each class)
+  S1 (C1):
+    [   50.0000     50.0000 ]
+    [   50.0000     50.0000 ]
+  S2 (C2):
+    [  116.6667    108.3333 ]
+    [  108.3333    116.6667 ]
+  SW = S1 + S2:
+    [  166.6667    158.3333 ]
+    [  158.3333    166.6667 ]
+
+3) Between-class scatter  SB = (m2 - m1)(m2 - m1)^T
+    [  277.7778    472.2222 ]
+    [  472.2222    802.7778 ]
+
+4) Optimal projection from the largest eigenvalue of SW^-1 SB
+  SW^-1 SB:
+    [  -10.5128    -17.8718 ]
+    [   12.8205     21.7949 ]
+  Eigenvalues: 11.2821 (largest), 0.0000
+  Largest eigenvalue (= max J) = 11.2821
+  Optimal projection vector V (unit length) = [-0.6341, 0.7733]
+  (Sign is arbitrary; -V gives the same J. SB has rank 1, so only one nonzero eigenvalue.)
+
+5) Ratio of between-class scatter to within-class spread
+  Along V:    w^T SB w = 128.6242
+              w^T SW w = 11.4008
+              J(V) = 128.6242 / 11.4008 = 11.2821
+  For comparison:
+              J along F1 axis only [1, 0] = 1.6667
+              J along F2 axis only [0, 1] = 4.8167
+  V gives the highest ratio; it matches both the closed form SW^-1 (m2 - m1)
+  and a brute-force search over directions (0 to 180 degrees).
+
+6) Projected class means along V
+  C1: 33.0185    C2: 44.3598    separation = 11.3413
+
+SUMMARY OF OPTIMAL V
+  V = [-0.6341, 0.7733]. The negative weight on Study Hours and positive
+  weight on Prior Score mean the best separating direction contrasts the two
+  features: Prior Score separates the classes well, while Study Hours is
+  strongly correlated with it inside each class, so subtracting it reduces
+  the within-class spread.
